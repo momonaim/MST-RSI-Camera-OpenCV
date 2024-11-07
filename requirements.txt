@@ -1,0 +1,6 @@
+matplotlib
+pandas
+opencv-python
+mss
+pynput
+ultralytics
