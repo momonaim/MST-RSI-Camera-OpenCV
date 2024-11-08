@@ -20,6 +20,7 @@ class Client:
 
         # Initialisation de la caméra avec le flux vidéo
         cap = cv2.VideoCapture('http://63.142.183.154:6103/mjpg/video.mjpg')
+        #cap = cv2.VideoCapture('http://104.207.27.126:8080/mjpg/video.mjpg')
 
         if not cap.isOpened():
             print("[ERREUR] Impossible d'ouvrir la caméra.")
@@ -30,7 +31,7 @@ class Client:
         hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
         last_saved_time = time.time()
-        save_interval = 5  # secondes
+        save_interval = 2  # secondes
 
         try:
             while True:
@@ -49,7 +50,7 @@ class Client:
 
                 # Afficher le nombre de personnes détectées en haut de l'image
                 people_count = len(boxes)
-                cv2.putText(frame, f'Personnes détectées : {people_count}', (10, 30),
+                cv2.putText(frame, f'Personnes detectees : {people_count}', (10, 30),
                             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
                 # Afficher le flux vidéo

@@ -7,7 +7,8 @@ import cv2
 from ultralytics import YOLO
 from datetime import datetime
 import threading
-
+import matplotlib.pyplot as plt  # Import pour tracer les graphiques
+import matplotlib.dates as mdates
 
 # Define the server class
 class Server:
@@ -89,6 +90,8 @@ class Server:
             for row in self.csv:
                 f.write(",".join(map(str, row)) + "\n")
         print("CSV file saved.")
+        # Tracer le graphique
+        self.plot_graph()
 
     def close_connections(self):
         for client_socket in self.client_sockets:
@@ -100,6 +103,26 @@ class Server:
         self.close_connections()
         sys.exit(0)
 
+    def plot_graph(self):
+        # Conversion des chaînes de temps en objets datetime
+        times = [datetime.strptime(row[0], "%Y-%m-%d %H:%M:%S") for row in self.csv[1:]]
+        people_counts = [row[1] for row in self.csv[1:]]
+
+        plt.figure(figsize=(12, 8))
+        plt.scatter(times, people_counts, color='b', s=20)
+        plt.title("Nombre de personnes par image au fil du temps")
+        plt.xlabel("Temps")
+        plt.ylabel("Personnes")
+
+        # Formatage de l'axe des x pour afficher les heures avec un intervalle d'une minute
+        plt.gca().xaxis.set_major_locator(mdates.MinuteLocator(interval=1))
+        plt.gca().xaxis.set_major_formatter(mdates.DateFormatter("%H:%M"))
+
+        plt.xticks(rotation=45, ha="right")
+        plt.tight_layout()
+        plt.grid(True, linestyle='--', alpha=0.5)
+        plt.savefig("people_count_scatter_plot.png")
+        plt.show()
 
 # Start the server
 if __name__ == "__main__":

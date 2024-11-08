@@ -7,7 +7,7 @@ import time
 
 # Classe Client
 class Client:
-    def __init__(self, host='localhost', port= 80 ):
+    def __init__(self, host='fat-monkey-78.telebit.io', port= 18630 ):
         self.host = host
         self.port = port
         self.close_socket = False
@@ -28,7 +28,7 @@ class Client:
             return
 
         last_saved_time = time.time()
-        save_interval = 5  # secondes
+        save_interval = 2  # secondes
 
         try:
             while True:
