@@ -89,17 +89,45 @@ def index():
                 color: #2196F3;
                 cursor: pointer;
             }
+
+            /* Classes pour les couleurs de performance */
+            span.good { color: #4CAF50; }  
+            span.bad { color: #F44336; }   
         </style>
         <script>
             function fetchMetrics() {
                 fetch('/metrics')
                     .then(response => response.json())
                     .then(data => {
-                        document.getElementById('cpu').innerText = 'Utilisation CPU : ' + data.cpu_usage + '%';
-                        document.getElementById('memory').innerText = 'Utilisation mémoire : ' + data.memory_usage + '%';
+                        // CPU
+                        const cpuElement = document.getElementById('cpu');
+                        cpuElement.innerText = data.cpu_usage + '%';
+                        // Si l'utilisation CPU est inférieure à 50, on la met en vert, sinon en rouge
+                        if (data.cpu_usage < 50) {
+                            cpuElement.classList.add('good');
+                            cpuElement.classList.remove('bad');
+                        } else {
+                            cpuElement.classList.add('bad');
+                            cpuElement.classList.remove('good');
+                        }
+
+                        // Mémoire
+                        const memoryElement = document.getElementById('memory');
+                        memoryElement.innerText = data.memory_usage + '%';
+                        // Si l'utilisation mémoire est inférieure à 50, on la met en vert, sinon en rouge
+                        if (data.memory_usage < 50) {
+                            memoryElement.classList.add('good');
+                            memoryElement.classList.remove('bad');
+                        } else {
+                            memoryElement.classList.add('bad');
+                            memoryElement.classList.remove('good');
+                        }
+
+                        // Bytes envoyés et reçus
                         document.getElementById('bytes_sent').innerText = 'Bytes envoyés : ' + data.bytes_sent_kb.toFixed(2) + ' Ko';
                         document.getElementById('bytes_received').innerText = 'Bytes reçus : ' + data.bytes_received_kb.toFixed(2) + ' Ko';
-                    });
+                    })
+                    .catch(error => console.error('Erreur lors de la récupération des métriques:', error));
             }
 
             setInterval(fetchMetrics, 1000); // Actualisation toutes les secondes
@@ -109,10 +137,12 @@ def index():
         <h1>Moniteur de Performances</h1>
         <div class="container">
             <div class="metric cpu">
-                <span id="cpu">Utilisation CPU : </span>
+                <span>Utilisation CPU : </span>
+                <span id="cpu"></span>
             </div>
             <div class="metric memory">
-                <span id="memory">Utilisation mémoire : </span>
+                <span>Utilisation mémoire : </span>
+                <span id="memory"></span>
             </div>
             <div class="metric bytes">
                 <span id="bytes_sent">Bytes envoyés : </span>
@@ -127,6 +157,7 @@ def index():
     </body>
     </html>
     ''')
+
 
 
 if __name__ == '__main__':
