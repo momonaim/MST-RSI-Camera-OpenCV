@@ -12,7 +12,7 @@ import matplotlib.dates as mdates
 
 # Define the server class
 class Server:
-    def __init__(self, host='localhost', port=80):
+    def __init__(self, host='localhost', port=5555):
         self.host = host
         self.port = port
         self.client_sockets = []
@@ -121,7 +121,9 @@ class Server:
         plt.xticks(rotation=45, ha="right")
         plt.tight_layout()
         plt.grid(True, linestyle='--', alpha=0.5)
-        plt.savefig("people_count_scatter_plot.png")
+        current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        file_name = f"people_count_plot_{current_time}.png"
+        plt.savefig(file_name)
         plt.show()
 
 # Start the server

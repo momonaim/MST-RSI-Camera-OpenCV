@@ -7,7 +7,7 @@ import time
 
 # Classe Client
 class Client:
-    def __init__(self, host='localhost', port=80):
+    def __init__(self, host='localhost', port=5555):
         self.host = host
         self.port = port
         self.close_socket = False
@@ -19,8 +19,9 @@ class Client:
         print("Connecté au serveur.")
 
         # Initialisation de la caméra avec le flux vidéo
-        cap = cv2.VideoCapture('http://63.142.183.154:6103/mjpg/video.mjpg')
+        #cap = cv2.VideoCapture('http://63.142.183.154:6103/mjpg/video.mjpg')
         #cap = cv2.VideoCapture('http://104.207.27.126:8080/mjpg/video.mjpg')
+        cap = cv2.VideoCapture('http://159.130.70.206/mjpg/video.mjpg')
 
         if not cap.isOpened():
             print("[ERREUR] Impossible d'ouvrir la caméra.")
@@ -31,7 +32,7 @@ class Client:
         hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
         last_saved_time = time.time()
-        save_interval = 2  # secondes
+        save_interval = 5  # secondes
 
         try:
             while True:

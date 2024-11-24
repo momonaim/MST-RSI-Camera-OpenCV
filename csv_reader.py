@@ -30,12 +30,13 @@ class PeopleCounter:
         plt.scatter(time_data, people_data, color='blue')  # Points de dispersion
         plt.xlabel("Temps")  # Étiquette pour l'axe X
         plt.ylabel("Nombre de personnes")  # Étiquette pour l'axe Y
-        plt.title("Graphique de dispersion des données du compteur de personnes")
+        plt.title("Nombre de personnes par image au fil du temps")
 
         # Rotation des labels de l'axe X pour une meilleure lisibilité
         plt.xticks(rotation=45)
 
         plt.tight_layout()  # Pour éviter que les labels se chevauchent
+        plt.savefig("people_plot.png")
         plt.show()
 
 # Exécution du programme
